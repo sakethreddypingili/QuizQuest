@@ -1,102 +1,130 @@
-/**
- * JS/state.js
- * Choice option button rendering, active state toggles, and answer templates check.
- */
+let currentQuestionIndex = 0;
+let selectedAnswers = {};
+let reviewQuestions = {};
 
-/**
- * Renders multiple choice answer buttons dynamically.
- * Toggles active selection card highlights, locks clicks, and shows answer check marks.
- * @param {Array<string>} choices - Answer string options list
- * @param {string} correctAns - The correct answer value
- * @param {Function} selectCallback - Called when an option is selected
- */
-function renderChoiceButtons(choices, correctAns, selectCallback) {
-  const container = document.getElementById('choices-container');
-  if (!container) return;
+let totalTime = 90*60;
+let timerId;
 
-  container.innerHTML = '';
+let chart;
 
-  choices.forEach(choice => {
-    const btn = document.createElement('button');
-    btn.className = 'choice-btn';
-    btn.textContent = choice;
-
-    btn.addEventListener('click', () => {
-      // Toggle active option card styles highlight
-      const activeBtn = container.querySelector('.choice-btn.active');
-      if (activeBtn) activeBtn.classList.remove('active');
-      btn.classList.add('active');
-
-      // Check correctness of selection
-      const isCorrect = choice === correctAns;
-
-      // Lock click actions on all choice buttons
-      const allButtons = container.querySelectorAll('.choice-btn');
-      allButtons.forEach(b => b.disabled = true);
-
-      // Display check marks / styles feedback
-      if (isCorrect) {
-        btn.classList.add('correct');
-      } else {
-        btn.classList.add('incorrect');
-        // Find and highlight correct answer
-        allButtons.forEach(b => {
-          if (b.textContent === correctAns) {
-            b.classList.add('correct');
-          }
-        });
-      }
-
-      // Fire callback after short visual delay
-      setTimeout(() => {
-        selectCallback(choice, isCorrect);
-      }, 1000);
-    });
-
-    container.appendChild(btn);
-  });
-}
-
-/**
- * Renders final performance tables and score statistics grids.
- * Maps response metrics, compute percentages, and displays results.
- * @param {Array<Object>} answers - Answer history logs
- * @param {Object} stats - Stats summary data object
- */
-function renderResultsScreen(answers, stats) {
-  const finalScore = document.getElementById('final-score');
-  const finalPercentage = document.getElementById('final-percentage');
-  const tableBody = document.querySelector('#performance-table tbody');
-
-  if (finalScore) finalScore.textContent = `${stats.correct} / ${stats.total}`;
-  if (finalPercentage) finalPercentage.textContent = `${stats.percentage}%`;
-
-  if (tableBody) {
-    tableBody.innerHTML = '';
-    // Map response metrics to table rows
-    answers.forEach((ans, index) => {
-      const row = document.createElement('tr');
-      
-      const noCell = document.createElement('td');
-      noCell.textContent = index + 1;
-      
-      const catCell = document.createElement('td');
-      catCell.textContent = ans.category;
-      
-      const resCell = document.createElement('td');
-      resCell.textContent = ans.isCorrect ? '✅ Correct' : '❌ Wrong';
-      resCell.style.color = ans.isCorrect ? '#10b981' : '#ef4444';
-      
-      const timeCell = document.createElement('td');
-      timeCell.textContent = `${ans.timeTaken}s`;
-
-      row.appendChild(noCell);
-      row.appendChild(catCell);
-      row.appendChild(resCell);
-      row.appendChild(timeCell);
-
-      tableBody.appendChild(row);
-    });
-  }
-}
-
+const questions = [
+{
+    question:"Which method is used to select an element by its id?",
+    options:[
+        "getElementById()",
+        "querySelectorAll()",
+        "getElementsByClassName()",
+        "findElement()"
+    ],
+    answer:"getElementById()"
+},
+{
+    question:"Which method returns the first matching element?",
+    options:[
+        "querySelector()",
+        "querySelectorAll()",
+        "getElementsByTagName()",
+        "matchSelector()"
+    ],
+    answer:"querySelector()"
+},
+{
+    question:"What property is used to change the HTML content of an element?",
+    options:[
+        "innerHTML",
+        "textContent",
+        "value",
+        "appendChild"
+    ],
+    answer:"innerHTML"
+},
+{
+    question:"Which method adds a class to an element?",
+    options:[
+        "classList.add()",
+        "classList.push()",
+        "classList.append()",
+        "classList.insert()"
+    ],
+    answer:"classList.add()"
+},
+{
+    question:"Which method creates a new HTML element?",
+    options:[
+        "createElement()",
+        "appendChild()",
+        "newElement()",
+        "buildElement()"
+    ],
+    answer:"createElement()"
+},
+{
+    question:"Which event occurs when a button is clicked?",
+    options:[
+        "click",
+        "hover",
+        "keypress",
+        "change"
+    ],
+    answer:"click"
+},
+{
+    question:"Which method is used to attach an event listener?",
+    options:[
+        "addEventListener()",
+        "attachEvent()",
+        "listenEvent()",
+        "registerEvent()"
+    ],
+    answer:"addEventListener()"
+},
+{
+    question:"Which method prevents default browser behavior?",
+    options:[
+        "preventDefault()",
+        "stopPropagation()",
+        "stopDefault()",
+        "cancelEvent()"
+    ],
+    answer:"preventDefault()"
+},
+{
+    question:"Which function executes repeatedly after a fixed interval?",
+    options:[
+        "setInterval()",
+        "setTimeout()",
+        "repeat()",
+        "loop()"
+    ],
+    answer:"setInterval()"
+},
+{
+    question:"Which array method adds an element at the end?",
+    options:[
+        "push()",
+        "pop()",
+        "shift()",
+        "unshift()"
+    ],
+    answer:"push()"
+},
+{
+    question:"Which array method removes the last element?",
+    options:[
+        "pop()",
+        "push()",
+        "shift()",
+        "splice()"
+    ],
+    answer:"pop()"
+},
+{
+    question:"Which array method creates a new array by transforming each element?",
+    options:[
+        "map()",
+        "filter()",
+        "reduce()",
+        "forEach()"
+    ],
+    answer:"map()"
+},
