@@ -43,3 +43,50 @@ function initQuizChallenge(count, category) {
   console.log(`Starting challenge with ${count} questions in category: ${category}`);
   // Placeholders logic to be populated in next commits
 }
+
+/**
+ * Answer history structures tracking player options choices.
+ * Logs response metrics, right/wrong splits, and times elapsed.
+ */
+class QuizTracker {
+  constructor() {
+    // Memory structures for tracking player decisions
+    this.answers = []; 
+    this.startTime = null;
+  }
+
+  startQuestionTimer() {
+    this.startTime = Date.now();
+  }
+
+  /**
+   * Log an answer event.
+   * @param {string} question - Question title text
+   * @param {string} category - Question category
+   * @param {string} selected - Chosen option text
+   * @param {boolean} isCorrect - Right/wrong splits
+   */
+  recordAnswer(question, category, selected, isCorrect) {
+    const elapsed = this.startTime ? (Date.now() - this.startTime) / 1000 : 0;
+    this.answers.push({
+      question,
+      category: category || 'General',
+      selected,
+      isCorrect,
+      timeTaken: Math.round(elapsed * 10) / 10 // rounded decimal
+    });
+  }
+
+  getStatsSummary() {
+    const total = this.answers.length;
+    const correctCount = this.answers.filter(a => a.isCorrect).length;
+    const percentage = total > 0 ? Math.round((correctCount / total) * 100) : 0;
+    return {
+      total,
+      correct: correctCount,
+      incorrect: total - correctCount,
+      percentage
+    };
+  }
+}
+
