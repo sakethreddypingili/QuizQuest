@@ -91,4 +91,3 @@ backToResultBtn.addEventListener("click" , function(){
 
     reviewScreen.style.display = "none";
 
-    resultScreen.style.display = "flex";
