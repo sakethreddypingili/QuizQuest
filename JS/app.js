@@ -45,3 +45,52 @@ nextBtn.addEventListener("click" , function(){
 prevBtn.addEventListener("click" , function(){
     if(currentQuestionIndex > 0){
         currentQuestionIndex--;
+        renderNavigator();
+        renderQuestions();
+        renderOptions();
+    }
+})
+
+reviewBtn.addEventListener("click" , function(){
+        reviewQuestions[currentQuestionIndex] = true;
+
+        renderNavigator();
+    });
+
+
+
+submitQuizBtn.addEventListener("click" , function(){
+
+    clearInterval(timerId);
+
+    calculateResult();
+
+});
+
+reattemptBtn.addEventListener("click" , function(){
+    clearInterval(timerId);
+    totalTime = 90*60;
+
+    document.querySelector(".timer").textContent = "90:00";
+
+    reattemptQuiz();
+})
+
+viewAnswersBtn.addEventListener("click" , function(){
+    renderReviewAnswers();
+
+    resultScreen.style.display = "none";
+    reviewScreen.style.display = "flex";
+})
+
+
+let backToResultBtn =
+document.querySelector("#backToResultBtn");
+
+backToResultBtn.addEventListener("click" , function(){
+
+    reviewScreen.style.display = "none";
+
+    resultScreen.style.display = "flex";
+
+});
