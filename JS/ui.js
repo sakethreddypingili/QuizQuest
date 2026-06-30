@@ -81,3 +81,87 @@ function renderNavigator(){
         navigator.innerHTML += `
             <div class="question-number"
                  style="background-color:${bgColor};
+                        color:${textColor};">
+                <span>${index + 1}</span>
+            </div>`;
+    });
+
+    let questionNumbers =
+    document.querySelectorAll(".question-number");
+
+    questionNumbers.forEach(function(questionNumber , index){
+
+        questionNumber.addEventListener("click" , function(){
+
+            currentQuestionIndex = index;
+
+            renderNavigator();
+            renderQuestions();
+            renderOptions();
+
+        });
+
+    });
+
+}
+
+
+let summaryScreen = document.querySelector("#summary-screen");
+
+let attemptedCount =
+document.querySelector("#attemptedCount");
+
+let unattemptedCount =
+document.querySelector("#unattemptedCount");
+
+let reviewCount =
+document.querySelector("#reviewCount");
+
+let submitQuizBtn =
+document.querySelector("#submitQuizBtn");
+
+function showSummary(){
+    let attempted = Object.keys(selectedAnswers).length;
+    let reviewed = Object.keys(reviewQuestions).length;
+
+    let unattempted = questions.length - attempted;
+
+    attemptedCount.textContent = attempted;
+
+    reviewCount.textContent = reviewed;
+
+    unattemptedCount.textContent = unattempted;
+
+    quizScreen.style.display = "none";
+
+    summaryScreen.style.display = "flex";
+}
+
+let resultScreen =
+document.querySelector("#result-screen");
+
+let scoreValue =
+document.querySelector("#scoreValue");
+
+let percentageValue =
+document.querySelector("#percentageValue");
+
+let correctValue =
+document.querySelector("#correctValue");
+
+let wrongValue =
+document.querySelector("#wrongValue");
+
+let reattemptBtn =
+document.querySelector("#reattemptBtn");
+
+function calculateResult(){
+    let score = 0;
+
+    questions.forEach(function(question , index){
+        if(selectedAnswers[index] === question.answer){
+            score++;
+        }
+    })
+
+    let percentage = ((score/questions.length)*100).toFixed(2);
