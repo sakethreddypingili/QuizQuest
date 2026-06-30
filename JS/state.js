@@ -128,3 +128,134 @@ const questions = [
     ],
     answer:"map()"
 },
+{
+    question:"What keyword is used to declare a block-scoped variable?",
+    options:[
+        "let",
+        "var",
+        "static",
+        "define"
+    ],
+    answer:"let"
+},
+{
+    question:"Which keyword declares a constant variable?",
+    options:[
+        "const",
+        "let",
+        "var",
+        "fixed"
+    ],
+    answer:"const"
+},
+{
+    question:"A closure gives access to:",
+    options:[
+        "Outer scope variables",
+        "Only local variables",
+        "Global variables only",
+        "DOM elements only"
+    ],
+    answer:"Outer scope variables"
+},
+{
+    question:"What is hoisting in JavaScript?",
+    options:[
+        "Moving declarations to the top",
+        "Moving functions to the bottom",
+        "Removing variables",
+        "Creating closures"
+    ],
+    answer:"Moving declarations to the top"
+},
+{
+    question:"Which variable type is hoisted and initialized as undefined?",
+    options:[
+        "var",
+        "let",
+        "const",
+        "all"
+    ],
+    answer:"var"
+},
+{
+    question:"Which storage persists even after closing the browser?",
+    options:[
+        "localStorage",
+        "sessionStorage",
+        "cookies",
+        "memoryStorage"
+    ],
+    answer:"localStorage"
+},
+{
+    question:"Which method stores data in localStorage?",
+    options:[
+        "setItem()",
+        "addItem()",
+        "pushItem()",
+        "saveItem()"
+    ],
+    answer:"setItem()"
+},
+{
+    question:"Which keyword is used with Promises for cleaner asynchronous code?",
+    options:[
+        "await",
+        "yield",
+        "pause",
+        "wait"
+    ],
+    answer:"await"
+},
+{
+    question:"Which method converts JSON string into JavaScript object?",
+    options:[
+        "JSON.parse()",
+        "JSON.stringify()",
+        "parseJSON()",
+        "convertJSON()"
+    ],
+    answer:"JSON.parse()"
+},
+{
+    question:"How do you access object property 'name'?",
+    options:[
+        "obj.name",
+        "obj->name",
+        "obj:name",
+        "name.obj"
+    ],
+    answer:"obj.name"
+},
+{
+    question:"Which loop is commonly used to iterate object properties?",
+    options:[
+        "for...in",
+        "for...of",
+        "while",
+        "do...while"
+    ],
+    answer:"for...in"
+},
+{
+    question:"Which keyword creates a class in ES6?",
+    options:[
+        "class",
+        "object",
+        "prototype",
+        "constructor"
+    ],
+    answer:"class"
+},
+{
+    question:"Which keyword refers to the current object?",
+    options:[
+        "this",
+        "self",
+        "current",
+        "object"
+    ],
+    answer:"this"
+}
+];
