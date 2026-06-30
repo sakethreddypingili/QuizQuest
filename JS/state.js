@@ -258,4 +258,3 @@ const questions = [
     ],
     answer:"this"
 }
-];
