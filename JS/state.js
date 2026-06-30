@@ -56,3 +56,47 @@ function renderChoiceButtons(choices, correctAns, selectCallback) {
     container.appendChild(btn);
   });
 }
+
+/**
+ * Renders final performance tables and score statistics grids.
+ * Maps response metrics, compute percentages, and displays results.
+ * @param {Array<Object>} answers - Answer history logs
+ * @param {Object} stats - Stats summary data object
+ */
+function renderResultsScreen(answers, stats) {
+  const finalScore = document.getElementById('final-score');
+  const finalPercentage = document.getElementById('final-percentage');
+  const tableBody = document.querySelector('#performance-table tbody');
+
+  if (finalScore) finalScore.textContent = `${stats.correct} / ${stats.total}`;
+  if (finalPercentage) finalPercentage.textContent = `${stats.percentage}%`;
+
+  if (tableBody) {
+    tableBody.innerHTML = '';
+    // Map response metrics to table rows
+    answers.forEach((ans, index) => {
+      const row = document.createElement('tr');
+      
+      const noCell = document.createElement('td');
+      noCell.textContent = index + 1;
+      
+      const catCell = document.createElement('td');
+      catCell.textContent = ans.category;
+      
+      const resCell = document.createElement('td');
+      resCell.textContent = ans.isCorrect ? '✅ Correct' : '❌ Wrong';
+      resCell.style.color = ans.isCorrect ? '#10b981' : '#ef4444';
+      
+      const timeCell = document.createElement('td');
+      timeCell.textContent = `${ans.timeTaken}s`;
+
+      row.appendChild(noCell);
+      row.appendChild(catCell);
+      row.appendChild(resCell);
+      row.appendChild(timeCell);
+
+      tableBody.appendChild(row);
+    });
+  }
+}
+
